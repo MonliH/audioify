@@ -1,0 +1,11 @@
+#button-menu {
+    margin-top: 10px;
+}
+
+#start-button {
+    width: 100px;
+    height: 40px;
+    border-radius: 3px;
+    border: none;
+    background-color: #25c4f5;
+}

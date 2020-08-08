@@ -103,7 +103,9 @@ export class Main extends React.Component<MainProps, MainState> {
                 <MusicPlayerDisplay currentPos={this.state.currentPos} text={this.state.code}></MusicPlayerDisplay>
             </div>
 
-            <StartButton onClick={this.onStartAudioify}></StartButton>
+            <div id="button-menu">
+                <StartButton onClick={this.onStartAudioify}></StartButton>
+            </div>
         </div>
     }
 }
