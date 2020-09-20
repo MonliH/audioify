@@ -22,7 +22,8 @@
   },
   "scripts": {
     "start": "webpack-dev-server --mode development",
-    "test": "react-scripts test"
+    "build": "webpack --mode production",
+    "test": "react-scripts test --watchAll=false"
   },
   "browserslist": {
     "production": [

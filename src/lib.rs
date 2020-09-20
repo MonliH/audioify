@@ -1,7 +1,7 @@
 mod utils;
 
-use wasm_bindgen::prelude::*;
 use std::collections::HashMap;
+use wasm_bindgen::prelude::*;
 
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
@@ -12,17 +12,20 @@ pub struct Song {}
 
 #[wasm_bindgen]
 impl Song {
-    fn generate(contents: String) -> Self {
+    fn generate(contents: &str) -> Self {
         Self {}
     }
 }
 
 #[wasm_bindgen]
 pub struct MusicGenerator {
-    /// Filename + file map
-    code: HashMap<String, String>,
-    /// Filename + music map 
-    songs: HashMap<String, Song>
+    /// Filename_id + file map
+    code: HashMap<usize, String>,
+    /// Filename_id + music map
+    songs: HashMap<usize, Song>,
+    /// Filename_id + filename map
+    files: HashMap<usize, String>,
+    counter: usize,
 }
 
 #[wasm_bindgen]
@@ -31,22 +34,31 @@ impl MusicGenerator {
         Self {
             songs: HashMap::new(),
             code: HashMap::new(),
+            files: HashMap::new(),
+            counter: 0
         }
     }
 
-    pub fn add_file(&mut self, filename: String, contents: String) {
-        self.code.insert(filename, contents);
+    pub fn add_file(&mut self, filename: String, contents: String) -> usize {
+        self.counter += 1;
+        self.code.insert(self.counter, contents);
+        self.files.insert(self.counter, filename);
+        self.counter
     }
 
-    pub fn generate_file(&mut self, filename: String, contents: String) {
-        self.songs.insert(filename, Song::generate(contents));
+    pub fn generate_file(&mut self, filename: usize) {
+        self.songs.insert(filename, Song::generate(&self.code[&filename]));
     }
 
-    pub fn song_generated(&self, filename: &str) -> bool {
-        self.songs.get(filename).is_some()
+    pub fn get_filename(&mut self, filename: usize) -> String {
+        self.files[&filename].clone()
     }
 
-    pub fn get_song(&self, filename: &str) -> *const Song {
-        self.songs.get(filename).unwrap() as *const Song
+    pub fn song_generated(&self, filename: usize) -> bool {
+        self.songs.get(&filename).is_some()
+    }
+
+    pub fn get_song(&self, filename: usize) -> *const Song {
+        (&self.songs[&filename]) as *const Song
     }
 }

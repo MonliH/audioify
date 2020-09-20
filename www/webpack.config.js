@@ -29,9 +29,9 @@ module.exports = {
     extensions: [".ts", ".js", ".tsx"],
   },
   devServer: {
-      publicPath: "/",
-      contentBase: "./public",
-      hot: true
+    publicPath: "/",
+    contentBase: "./public",
+    hot: true,
   },
   output: {
     filename: "bundle.js",
