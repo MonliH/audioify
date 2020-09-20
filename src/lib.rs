@@ -1,7 +1,7 @@
 mod utils;
 
-use wasm_bindgen::prelude::*;
 use std::collections::HashMap;
+use wasm_bindgen::prelude::*;
 
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
@@ -21,8 +21,8 @@ impl Song {
 pub struct MusicGenerator {
     /// Filename + file map
     code: HashMap<String, String>,
-    /// Filename + music map 
-    songs: HashMap<String, Song>
+    /// Filename + music map
+    songs: HashMap<String, Song>,
 }
 
 #[wasm_bindgen]

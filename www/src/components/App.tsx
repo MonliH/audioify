@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import {greet} from "wasm-audioify";
+import { greet } from "wasm-audioify";
 
 function App() {
   useEffect(() => {

@@ -1,7 +1,9 @@
 <div align="center">
-  <h1><code>Audioify 🎵</code></h1>
-  <sub>Generate music from code</sub>
+  <h1>Audioify 🎵</h1>
+  <b>Generate music from code</b>
 </div>
+
+<br>
 
 # Run
 * Install the [rust toolchain](https://rustup.rs/)
