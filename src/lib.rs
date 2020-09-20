@@ -50,10 +50,6 @@ impl MusicGenerator {
         self.songs.insert(filename, Song::generate(&self.code[&filename]));
     }
 
-    pub fn get_filename(&mut self, filename: usize) -> String {
-        self.files[&filename].clone()
-    }
-
     pub fn song_generated(&self, filename: usize) -> bool {
         self.songs.get(&filename).is_some()
     }

@@ -21,6 +21,4 @@ fn test_insert() {
 
     assert!(music_gen.song_generated(id));
     music_gen.get_song(id);
-
-    assert_eq!(filename, music_gen.get_filename(id));
 }
