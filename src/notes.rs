@@ -5,7 +5,7 @@ type Pitch = u16;
 
 /// A piano key
 #[derive(Clone, Copy)]
-pub struct Key(u8);
+pub struct Key(pub u8);
 
 impl Key {
     pub fn new(val: u8) -> Self {
@@ -14,10 +14,6 @@ impl Key {
 
     pub fn to_pitch(&self) -> Pitch {
         (2.0f32.powf((self.0 as f32 - 49f32) / 12f32) * 440f32) as Pitch
-    }
-
-    pub fn process<T: Fn(u8, u8) -> u8>(&self, other: &Self, m: T) -> Self {
-        Key(m(self.0, other.0))
     }
 }
 

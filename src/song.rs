@@ -1,5 +1,5 @@
+use crate::notes::{Key, KeySignature};
 use wasm_bindgen::prelude::*;
-use crate::notes::{KeySignature, Key};
 
 #[wasm_bindgen]
 pub struct Song {
@@ -11,6 +11,7 @@ pub struct Song {
     generated_song: Option<Box<[u16]>>,
 
     current_key: Option<Key>,
+    key_sum: usize,
     key_signature: KeySignature,
     key_sig_delta: u8,
     flag: bool,
@@ -27,6 +28,7 @@ impl Song {
             generated_song: None,
 
             current_key: None,
+            key_sum: 0,
             key_signature: *Self::rand_choice(
                 filename_sum,
                 &[KeySignature::Major, KeySignature::Minor],
@@ -45,39 +47,38 @@ impl Song {
         &choices[seed % choices.len()]
     }
 
-    fn get_next_note(&self, key: Key) -> Key {
+    fn get_next_note(&self) -> Key {
         match self.current_key {
-            Some(k) => k.process(&key, |x, y| {
-                let delta = Self::rand_choice(y as usize, &[1, 1, 1, 1, 1, 2, 2, 3]);
+            Some(k) => Key::new({
+                let delta = Self::rand_choice(self.key_sum as usize, &[1, 1, 1, 1, 1, 2, 2, 3]);
                 if self.flag {
-                    x + delta
+                    k.0 + delta
                 } else {
-                    x - delta
+                    k.0 - delta
                 }
             }),
-            None => key,
+            None => Key(self.key_sum as u8),
         }
     }
 
     pub fn generate(&mut self) -> *const u16 {
         let mut notes = Vec::with_capacity(self.contents.len());
-        let mut current_sum: usize = 0;
 
         for c in self.contents.chars() {
             if is_paren(c) {
                 // Change direction of flow
                 let negated = !self.flag;
                 self.flag = *Self::rand_choice(
-                    current_sum,
+                    self.key_sum,
                     &[
                         negated, negated, negated, negated, negated, negated, self.flag,
                     ],
                 );
             }
-            current_sum += c as usize;
+            self.key_sum += c as usize;
 
             // Pitch
-            notes.push(self.get_next_note(Key::new(c as u8)).to_pitch());
+            notes.push(self.get_next_note().to_pitch());
             // Duration
             notes.push(1);
         }
