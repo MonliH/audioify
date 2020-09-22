@@ -1,7 +1,7 @@
 import React from "react";
 
 function CodeOutput() {
-  return <div className="App"></div>;
+  return <div></div>;
 }
 
 export default CodeOutput;

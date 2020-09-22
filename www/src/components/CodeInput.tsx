@@ -1,7 +1,7 @@
 import React from "react";
 
 function CodeInput() {
-  return <div className="App"></div>;
+  return <div></div>;
 }
 
 export default CodeInput;
