@@ -8,3 +8,4 @@ extern crate num_traits;
 
 mod notes;
 mod song;
+pub use song::Song;
