@@ -11,8 +11,10 @@ use audioify::Song;
 wasm_bindgen_test_configure!(run_in_browser);
 
 #[wasm_bindgen_test]
-fn test_insert() {
+fn test_generate() {
     let contents = "fn main() -> String {}".to_string();
     let filename = "my_filename.rs".to_string();
-    let mut song = Song::new(filename, contents);
+    let mut song = Song::new(filename, contents.clone());
+    song.generate();
+    assert_eq!(song.length(), contents.len());
 }

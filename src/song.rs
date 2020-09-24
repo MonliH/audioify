@@ -49,16 +49,20 @@ impl Song {
 
     fn get_next_note(&self) -> Key {
         match self.current_key {
-            Some(k) => Key::new({
+            Some(k) => {
                 let delta = Self::rand_choice(self.key_sum as usize, &[1, 1, 1, 1, 1, 2, 2, 3]);
                 if self.flag {
-                    k.0 + delta
+                    self.key_signature.calc_up_n(k, self.key_sig_delta, *delta)
                 } else {
-                    k.0 - delta
+                    self.key_signature.calc_down_n(k, self.key_sig_delta, *delta)
                 }
-            }),
+            },
             None => Key(self.key_sum as u8),
         }
+    }
+
+    pub fn length(&self) -> usize {
+        self.generated_song.as_ref().unwrap().len()
     }
 
     pub fn generate(&mut self) -> *const u16 {
@@ -94,3 +98,13 @@ fn is_paren(c: char) -> bool {
         _ => false,
     }
 }
+
+#[test]
+fn test_generate() {
+    let contents = "fn main() -> String {}".to_string();
+    let filename = "my_filename.rs".to_string();
+    let mut song = Song::new(filename, contents.clone());
+    song.generate();
+    assert_eq!(song.length(), contents.len() * 2);
+}
+
