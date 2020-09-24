@@ -82,14 +82,14 @@ impl KeySignature {
     }
 
     pub fn calc_down_n(&self, mut key: Key, ksd: u8, n: usize) -> Key {
-        for _ in 0..n-1 {
+        for _ in 0..n - 1 {
             key = self.calc_step_down(key, ksd);
         }
         self.calc_step_down(key, ksd)
     }
 
     pub fn calc_up_n(&self, mut key: Key, ksd: u8, n: usize) -> Key {
-        for _ in 0..n-1 {
+        for _ in 0..n - 1 {
             key = self.calc_step_up(key, ksd);
         }
         self.calc_step_up(key, ksd)
