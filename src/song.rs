@@ -50,13 +50,14 @@ impl Song {
     fn get_next_note(&self) -> Key {
         match self.current_key {
             Some(k) => {
-                let delta = Self::rand_choice(self.key_sum as usize, &[1, 1, 1, 1, 1, 2, 2, 3]);
+                let delta = Self::rand_choice(self.key_sum, &[1, 1, 1, 1, 1, 2, 2, 3]);
                 if self.flag {
                     self.key_signature.calc_up_n(k, self.key_sig_delta, *delta)
                 } else {
-                    self.key_signature.calc_down_n(k, self.key_sig_delta, *delta)
+                    self.key_signature
+                        .calc_down_n(k, self.key_sig_delta, *delta)
                 }
-            },
+            }
             None => Key(self.key_sum as u8),
         }
     }
@@ -80,6 +81,14 @@ impl Song {
                 );
             }
             self.key_sum += c as usize;
+
+            self.flag = *Self::rand_choice(
+                self.key_sum,
+                &[
+                    self.flag, self.flag, self.flag, self.flag, self.flag, self.flag, self.flag,
+                    !self.flag,
+                ],
+            );
 
             // Pitch
             notes.push(self.get_next_note().to_pitch());
@@ -107,4 +116,3 @@ fn test_generate() {
     song.generate();
     assert_eq!(song.length(), contents.len() * 2);
 }
-
