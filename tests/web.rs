@@ -16,5 +16,5 @@ fn test_generate() {
     let filename = "my_filename.rs".to_string();
     let mut song = Song::new(filename, contents.clone());
     song.generate();
-    assert_eq!(song.length(), contents.len());
+    assert_eq!(song.length(), contents.len() * 2);
 }
